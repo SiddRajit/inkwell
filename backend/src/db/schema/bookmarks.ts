@@ -3,8 +3,8 @@ import { users } from "./users.js";
 import { posts } from "./posts.js";
 import { relations } from "drizzle-orm";
 
-export const likes = pgTable(
-  "likes",
+export const bookmarks = pgTable(
+  "bookmarks",
   {
     userId: uuid("user_id").references(() => users.id),
     postId: uuid("post_id").references(() => posts.id),
@@ -14,13 +14,13 @@ export const likes = pgTable(
   }),
 );
 
-export const likesRelations = relations(likes, ({ one }) => ({
+export const bookmarksRelations = relations(bookmarks, ({ one }) => ({
   user: one(users, {
-    fields: [likes.userId],
+    fields: [bookmarks.userId],
     references: [users.id],
   }),
   post: one(posts, {
-    fields: [likes.postId],
+    fields: [bookmarks.postId],
     references: [posts.id],
   }),
 }));
