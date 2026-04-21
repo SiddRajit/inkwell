@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { users } from "./users.js";
 import { relations } from "drizzle-orm";
 import { likes } from "./likes.js";
@@ -10,6 +10,8 @@ export const posts = pgTable("posts", {
   authorId: uuid("author_id").references(() => users.id),
   title: text("title").notNull(),
   content: text("content").notNull(),
+  category: text("category").notNull(),
+  likeCount: integer("like_count").notNull().default(0),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

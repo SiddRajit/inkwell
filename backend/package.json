@@ -24,6 +24,7 @@
     "typescript": "^6.0.2"
   },
   "dependencies": {
+    "@clerk/express": "^2.1.5",
     "@neondatabase/serverless": "^1.0.2",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
