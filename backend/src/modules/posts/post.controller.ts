@@ -2,8 +2,7 @@ import { and, eq, ilike, sql } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { Request, Response } from "express";
 import { getAuth } from "@clerk/express";
-
-type SortBy = "latest" | "popular" | "trending";
+import { posts } from "../../db/schema/posts.js";
 
 export async function getPosts(req: Request, res: Response) {
   try {
@@ -42,7 +41,9 @@ export async function getPosts(req: Request, res: Response) {
 
     const enriched = feed.map((post) => ({
       ...post,
-      isLikedByMe: userId,
+      isLikedByMe: userId
+        ? post.likes.some((like) => like.userId === userId)
+        : false,
       likes: undefined,
     }));
 
@@ -56,6 +57,49 @@ export async function getPosts(req: Request, res: Response) {
     res.status(500).json({
       success: false,
       message: "Failed to get products",
+    });
+  }
+}
+
+export async function createPost(req: Request, res: Response) {
+  try {
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+      res.status(401).json({
+        success: false,
+        message: "User unauthorized",
+      });
+      return;
+    }
+
+    const { title, content, category } = req.body || {};
+
+    if (!title || !content || !category) {
+      res.status(400).json({
+        success: false,
+        message: "Title, content, category are required",
+      });
+      return;
+    }
+
+    const post = await db.insert(posts).values({
+      authorId: userId,
+      title,
+      content,
+      category,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Created post successfully",
+      data: post,
+    });
+  } catch (error) {
+    console.error("Error creating product: ", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to create product",
     });
   }
 }

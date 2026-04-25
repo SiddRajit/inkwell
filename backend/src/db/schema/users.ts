@@ -7,12 +7,11 @@ import { comments } from "./comments.js";
 import { bookmarks } from "./bookmarks.js";
 
 export const users = pgTable("users", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().notNull(),
   username: text("username").notNull().unique(),
   email: text("email").notNull().unique(),
-  password: text("password").notNull(),
   bio: text("bio"),
-  createdAt: timestamp("created_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

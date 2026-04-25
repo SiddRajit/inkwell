@@ -6,13 +6,15 @@ import { comments } from "./comments.js";
 import { bookmarks } from "./bookmarks.js";
 
 export const posts = pgTable("posts", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  authorId: uuid("author_id").references(() => users.id),
+  id: uuid("id").defaultRandom().primaryKey().notNull(),
+  authorId: text("author_id")
+    .references(() => users.id)
+    .notNull(),
   title: text("title").notNull(),
   content: text("content").notNull(),
   category: text("category").notNull(),
   likeCount: integer("like_count").notNull().default(0),
-  createdAt: timestamp("created_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const postsRelations = relations(posts, ({ one, many }) => ({

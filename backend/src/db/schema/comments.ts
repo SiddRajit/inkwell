@@ -4,11 +4,15 @@ import { users } from "./users.js";
 import { relations } from "drizzle-orm";
 
 export const comments = pgTable("comments", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  postId: uuid("post_id").references(() => posts.id),
-  authorId: uuid("author_id").references(() => users.id),
+  id: uuid("id").defaultRandom().primaryKey().notNull(),
+  postId: uuid("post_id")
+    .references(() => posts.id)
+    .notNull(),
+  authorId: text("author_id")
+    .references(() => users.id)
+    .notNull(),
   content: text("content").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const commentsRelations = relations(comments, ({ one, many }) => ({
@@ -20,5 +24,4 @@ export const commentsRelations = relations(comments, ({ one, many }) => ({
     fields: [comments.postId],
     references: [posts.id],
   }),
-  replies: many(comments),
 }));
