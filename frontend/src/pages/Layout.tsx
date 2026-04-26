@@ -1,6 +1,7 @@
 import { useApiInterceptor } from "@/api/api"
 import { ClerkSync } from "@/components/ClerkSync"
-import { Link, Outlet } from "@tanstack/react-router"
+import Navbar from "@/components/Navbar"
+import { Outlet } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 
 function Layout() {
@@ -8,9 +9,7 @@ function Layout() {
   return (
     <div>
       <div className="flex gap-2 p-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>{" "}
+        <Navbar />
       </div>
       <hr />
       <ClerkSync />

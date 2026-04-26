@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useAuth } from "@clerk/clerk-react"
+import { useAuth } from "@clerk/react"
 import { useEffect } from "react"
 
 export const api = axios.create({
