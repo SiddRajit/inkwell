@@ -5,7 +5,7 @@ import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react"
 
 function Navbar() {
   return (
-    <div className="flex w-full items-center justify-between">
+    <div className="flex w-full items-center justify-between gap-2 p-2">
       {/* Left */}
       <div className="flex items-center justify-between gap-5">
         <Link to="/">
