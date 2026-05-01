@@ -22,3 +22,5 @@ export const usersRelations = relations(users, ({ many }) => ({
   following: many(follows, { relationName: "following" }),
   bookmarks: many(bookmarks),
 }));
+
+export type User = typeof users.$inferSelect;

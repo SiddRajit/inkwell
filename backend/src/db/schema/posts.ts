@@ -26,3 +26,5 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
   comments: many(comments),
   bookmarks: many(bookmarks),
 }));
+
+export type Post = typeof posts.$inferSelect;

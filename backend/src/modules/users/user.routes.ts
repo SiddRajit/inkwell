@@ -10,7 +10,9 @@ const clerkClient = createClerkClient({
 
 router.post("/sync", async (req: Request, res: Response) => {
   try {
+    const authDebug = getAuth(req);
     const { userId } = getAuth(req);
+    const auth = getAuth(req);
 
     if (!userId) {
       res.status(401).json({ success: false, message: "Unauthorized" });
@@ -39,3 +41,5 @@ router.post("/sync", async (req: Request, res: Response) => {
     res.status(500).json({ success: false });
   }
 });
+
+export default router;

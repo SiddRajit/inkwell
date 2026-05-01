@@ -3,7 +3,8 @@ import { useEffect, useRef } from "react"
 import { api } from "../api/api"
 
 export function ClerkSync() {
-  const { isSignedIn, getToken } = useAuth()
+  console.log("API URL:", import.meta.env.VITE_API_URL)
+  const { isSignedIn, getToken, isLoaded } = useAuth()
   const synced = useRef(false)
 
   useEffect(() => {
@@ -12,6 +13,8 @@ export function ClerkSync() {
     const sync = async () => {
       try {
         const token = await getToken()
+        console.log("token: ", token)
+
         await api.post(
           "/users/sync",
           {},
@@ -24,7 +27,7 @@ export function ClerkSync() {
     }
 
     sync()
-  }, [isSignedIn])
+  }, [isSignedIn, isLoaded])
 
   return null
 }

@@ -2,25 +2,32 @@ import { clerkMiddleware } from "@clerk/express";
 import express from "express";
 import cors from "cors";
 import postsRouter from "./modules/posts/post.routes.js";
+import usersRouter from "./modules/users/user.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3002;
 
 // Webhooks
 
-app.use("/api/webhooks", express.raw({ type: "application/json" }));
+// app.use("/api/webhooks", express.raw({ type: "application/json" }));
 
 // Middleware
 
-app.use(clerkMiddleware());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173/",
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
   }),
 );
+app.use(
+  clerkMiddleware({
+    secretKey: process.env.CLERK_SECRET_KEY,
+    publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+    clockSkewInMs: 60000,
+  }),
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Health
 
@@ -38,6 +45,7 @@ app.get("/api/health", (req, res) => {
 // Routes
 
 app.use("/api/posts", postsRouter);
+app.use("/api/users", usersRouter);
 
 // 404 handler
 
