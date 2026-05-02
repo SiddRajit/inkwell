@@ -61,6 +61,34 @@ export async function getPosts(req: Request, res: Response) {
   }
 }
 
+export async function getPost(req: Request, res: Response) {
+  try {
+    const { id } = req.params as { id: string };
+    const post = await db.select().from(posts).where(eq(posts.id, id));
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "User unauthorized",
+      });
+    }
+
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Fetched post successfully",
+      data: post,
+    });
+  } catch (error) {}
+}
+
 export async function createPost(req: Request, res: Response) {
   try {
     const { userId } = getAuth(req);

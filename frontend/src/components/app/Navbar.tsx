@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router"
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 import { Pen } from "lucide-react"
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react"
 

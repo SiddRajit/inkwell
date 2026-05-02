@@ -1,7 +1,7 @@
 import { useApiInterceptor } from "@/api/api"
 import { ClerkSync } from "@/components/ClerkSync"
-import Footer from "@/components/Footer"
-import Navbar from "@/components/Navbar"
+import Footer from "@/components/app/Footer"
+import Navbar from "@/components/app/Navbar"
 import { Outlet } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 

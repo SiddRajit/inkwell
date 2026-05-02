@@ -1,4 +1,4 @@
-import PostCard from "@/components/PostCard"
+import PostCard from "@/components/app/PostCard"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -58,7 +58,7 @@ function Home() {
         </div>
       </div>
       <div>
-        <div className="flex items-center justify-between">
+        <div className="mb-5 flex items-center justify-between">
           <h1 className="font-serif text-2xl">Recent Posts</h1>
           <Link to="/explore">
             <Button className="bg-transparent text-muted-foreground hover:bg-accent-foreground hover:text-white">
