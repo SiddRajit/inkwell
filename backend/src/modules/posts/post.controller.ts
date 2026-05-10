@@ -86,7 +86,13 @@ export async function getPost(req: Request, res: Response) {
       message: "Fetched post successfully",
       data: post,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error fetching product: ", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch product",
+    });
+  }
 }
 
 export async function createPost(req: Request, res: Response) {

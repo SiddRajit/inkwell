@@ -1,5 +1,17 @@
 import type { User } from "./user"
 
+export interface CreateProductData {
+  title: string
+  content: string
+  category:
+    | "technology"
+    | "design"
+    | "sports"
+    | "art"
+    | "politics"
+    | "miscellaneous"
+}
+
 export interface FeedParams {
   search?: string
   category?: string

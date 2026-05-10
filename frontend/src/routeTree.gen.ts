@@ -13,6 +13,7 @@ import { Route as WriteRouteImport } from './routes/write'
 import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as BookmarksRouteImport } from './routes/bookmarks'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PostPostIdRouteImport } from './routes/post/$postId'
 
 const WriteRoute = WriteRouteImport.update({
   id: '/write',
@@ -34,18 +35,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PostPostIdRoute = PostPostIdRouteImport.update({
+  id: '/post/$postId',
+  path: '/post/$postId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bookmarks': typeof BookmarksRoute
   '/explore': typeof ExploreRoute
   '/write': typeof WriteRoute
+  '/post/$postId': typeof PostPostIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bookmarks': typeof BookmarksRoute
   '/explore': typeof ExploreRoute
   '/write': typeof WriteRoute
+  '/post/$postId': typeof PostPostIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/bookmarks': typeof BookmarksRoute
   '/explore': typeof ExploreRoute
   '/write': typeof WriteRoute
+  '/post/$postId': typeof PostPostIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/bookmarks' | '/explore' | '/write'
+  fullPaths: '/' | '/bookmarks' | '/explore' | '/write' | '/post/$postId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bookmarks' | '/explore' | '/write'
-  id: '__root__' | '/' | '/bookmarks' | '/explore' | '/write'
+  to: '/' | '/bookmarks' | '/explore' | '/write' | '/post/$postId'
+  id: '__root__' | '/' | '/bookmarks' | '/explore' | '/write' | '/post/$postId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   BookmarksRoute: typeof BookmarksRoute
   ExploreRoute: typeof ExploreRoute
   WriteRoute: typeof WriteRoute
+  PostPostIdRoute: typeof PostPostIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/post/$postId': {
+      id: '/post/$postId'
+      path: '/post/$postId'
+      fullPath: '/post/$postId'
+      preLoaderRoute: typeof PostPostIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   BookmarksRoute: BookmarksRoute,
   ExploreRoute: ExploreRoute,
   WriteRoute: WriteRoute,
+  PostPostIdRoute: PostPostIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

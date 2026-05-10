@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react"
 import { api } from "../api/api"
 
 export function ClerkSync() {
-  console.log("API URL:", import.meta.env.VITE_API_URL)
   const { isSignedIn, getToken, isLoaded } = useAuth()
   const synced = useRef(false)
 

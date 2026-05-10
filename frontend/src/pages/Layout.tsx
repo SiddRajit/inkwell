@@ -4,6 +4,7 @@ import Footer from "@/components/app/Footer"
 import Navbar from "@/components/app/Navbar"
 import { Outlet } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
+import { Toaster } from "sonner"
 
 function Layout() {
   useApiInterceptor()
@@ -18,7 +19,7 @@ function Layout() {
         <Outlet />
       </main>
       <Footer />
-
+      <Toaster />
       <TanStackRouterDevtools />
     </div>
   )
