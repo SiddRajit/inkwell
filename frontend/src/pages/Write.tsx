@@ -29,6 +29,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
+import { useCreatePost } from "@/hooks/usePosts"
+import { useNavigate } from "@tanstack/react-router"
 
 const CategoryEnum = z.enum([
   "technology",
@@ -52,6 +54,8 @@ const formSchema = z.object({
 })
 
 function Write() {
+  const { mutateAsync: createProduct } = useCreatePost()
+  const navigate = useNavigate()
   const form = useForm({
     defaultValues: {
       title: "",
@@ -62,7 +66,18 @@ function Write() {
       onChange: formSchema,
     },
     onSubmit: async ({ value }) => {
-      toast.success("You successfully created a post")
+      createProduct(value, {
+        onSuccess: () => {
+          form.reset()
+          toast.success("You successfully created a post")
+          navigate({ to: "/" })
+        },
+        onError: (error) => {
+          console.error("Error creating post", error)
+          toast.error("Error creating product")
+        },
+      })
+
       return value
     },
   })
@@ -124,7 +139,7 @@ function Write() {
                         htmlFor={field.name}
                         className="text-lg font-medium"
                       >
-                        Description
+                        Content
                       </FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
@@ -211,8 +226,8 @@ function Write() {
             >
               Reset
             </Button>
-            <Button type="submit" form="bug-report-form">
-              Submit
+            <Button type="submit" form="create-post-form">
+              Create
             </Button>
           </Field>
         </CardFooter>
