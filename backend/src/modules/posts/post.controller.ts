@@ -64,7 +64,12 @@ export async function getPosts(req: Request, res: Response) {
 export async function getPost(req: Request, res: Response) {
   try {
     const { id } = req.params as { id: string };
-    const post = await db.select().from(posts).where(eq(posts.id, id));
+    const post = await db.query.posts.findMany({
+      where: eq(posts.id, id),
+      with: {
+        author: true,
+      },
+    });
     const { userId } = getAuth(req);
 
     if (!userId) {
@@ -137,3 +142,41 @@ export async function createPost(req: Request, res: Response) {
     });
   }
 }
+
+export async function deletePost(req: Request, res: Response) {
+  try {
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+      res.status(401).json({
+        success: false,
+        message: "User unauthorized",
+      });
+      return;
+    }
+
+    const { id } = req.params as { id: string };
+    const post = await db.delete(posts).where(eq(posts.id, id));
+
+    if (!post) {
+      return res.status(401).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Deleted post successfully",
+      data: post,
+    });
+  } catch (error) {
+    console.error("Error deleting product: ", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete product",
+    });
+  }
+}
+
+export async function updatePost(req: Request, res: Response) {}
